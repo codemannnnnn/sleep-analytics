@@ -1,23 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+//packages
+import axios from "axios";
+import { atom, selector } from "recoil";
+
+//styles
+import "./App.css";
+import "./styles.css";
+
+//components
+import { Dashboard } from "./components/Dashboard";
+import { Header } from "./components/Header";
+
+//incoming state
+import { setUserAtom } from "./components/Header";
+
+const urlArray = [
+  {
+    user: 1,
+    url: "https://s3.amazonaws.com/eight-public/challenge/2228b530e055401f81ba37b51ff6f81d.json",
+  },
+  {
+    user: 2,
+    url: "https://s3.amazonaws.com/eight-public/challenge/d6c1355e38194139b8d0c870baf86365.json",
+  },
+  {
+    user: 3,
+    url: "https://s3.amazonaws.com/eight-public/challenge/f9bf229fd19e4c799e8c19a962d73449.json",
+  },
+];
+
+export const userAtom = atom({
+  key: "userUrl",
+  default: "",
+});
+
+export const grabData = selector({
+  key: "userData1",
+  get: async ({ get }) => {
+    let arr = [];
+    let user = get(setUserAtom);
+    let url = "";
+    urlArray.forEach((e) => {
+      if (e.user === parseInt(user === "" ? "1" : user)) {
+        url = e.url;
+      }
+    });
+    document.title = `Eight Sleep - User ${user === "" ? "1" : user}`;
+    try {
+      let grab = await axios.get(url).then((res) => {
+        arr.push(res.data.intervals);
+      });
+      return arr;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+});
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <Header />
+        <Dashboard />
+      </div>
     </div>
   );
 }

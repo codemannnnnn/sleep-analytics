@@ -1,0 +1,69 @@
+body {
+  background-color: #282c34;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+.date-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 2%;
+  margin: auto;
+}
+.date-box :hover {
+  border-color: dodgerblue;
+  color: dodgerblue;
+  cursor: pointer;
+}
+
+.date-box-item {
+  border: 1px solid white;
+  padding: 5%;
+  color: white;
+  border-radius: 10px;
+  font-size: larger;
+  width: 20%;
+}
+
+.cta-top {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  padding: 4%;
+}
+
+#cta-top-item1 {
+  width: 20%;
+  border: 1px solid white;
+  border-radius: 100px;
+  margin: auto;
+  height: 200px;
+}
+
+#cta-top-item2 {
+  width: 70%;
+  margin: auto;
+}
+
+#score-gauge-inner {
+  padding-top: 20%;
+}
+
+.chart-display-mid {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  padding: 3%;
+  color: grey;
+}
