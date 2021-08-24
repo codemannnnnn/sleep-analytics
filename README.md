@@ -12,10 +12,10 @@ I have included a built Dockerfile to handle the build for you.
 
 Commands to run once you have cloned to your machine
 
-    Docker Build
+    ####Docker Build
     docker build -t eight-sleep-app .
 
-    Run the newly created image
+    ####Run the newly created image
     docker run -d --name "eight-sleep-analytics" -p 3000:3000 eight-sleep-app
 
 Go to http://localhost/3000 to view the UI.
