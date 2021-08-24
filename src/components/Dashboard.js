@@ -147,7 +147,7 @@ export const Dashboard = () => {
             ) : (
               <BarChart
                 temp={selectedItemData[0].timeseries.tempBedC}
-                name={"Bed Temperature"}
+                name={"Pod Temperature"}
                 height={400}
                 width={450}
                 footer={"time | temp"}
