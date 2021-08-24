@@ -18,7 +18,7 @@ Commands to run once you have cloned to your machine
     ####Run the newly created image
     docker run -d --name "eight-sleep-analytics" -p 3000:3000 eight-sleep-app
 
-Go to http://localhost/3000 to view the UI.
+Go to http://localhost:3000 to view the UI.
 
 ## Available Scripts
 
