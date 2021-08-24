@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { atom, useRecoilState, useRecoilValue } from "recoil";
+
+import { atom, useRecoilState } from "recoil";
 import {
   Collapse,
   Navbar,
@@ -10,7 +11,6 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText,
 } from "reactstrap";
 
 export const setUserAtom = atom({
@@ -38,13 +38,13 @@ export const Header = () => {
                 User List
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem name="1" onClick={handleUser}>
+                <DropdownItem name="1" onClick={handleUser} id="dropdown-item">
                   User 1
                 </DropdownItem>
-                <DropdownItem name="2" onClick={handleUser}>
+                <DropdownItem name="2" onClick={handleUser} id="dropdown-item">
                   User 2
                 </DropdownItem>
-                <DropdownItem name="3" onClick={handleUser}>
+                <DropdownItem name="3" onClick={handleUser} id="dropdown-item">
                   User 3
                 </DropdownItem>
               </DropdownMenu>

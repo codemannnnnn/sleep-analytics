@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 //packages
 import axios from "axios";
@@ -51,6 +52,7 @@ export const grabData = selector({
       let grab = await axios.get(url).then((res) => {
         arr.push(res.data.intervals);
       });
+
       return arr;
     } catch (err) {
       console.log(err);
@@ -63,7 +65,17 @@ function App() {
     <div className="App">
       <div>
         <Header />
-        <Dashboard />
+        <Router>
+          <Switch>
+            <Route path="/dashboard">
+              <Dashboard />
+            </Route>
+
+            <Route path="/">
+              <Dashboard />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     </div>
   );

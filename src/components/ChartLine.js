@@ -2,7 +2,17 @@ import React, { useState, useEffect } from "react";
 
 import { Line } from "react-chartjs-2";
 
-export const ChartLine = ({ stages, name }) => {
+export const ChartLine = ({
+  stages,
+  name,
+  width,
+  height,
+  icon1,
+  icon1p,
+  icon2,
+  icon2p,
+  footer,
+}) => {
   const [chartLabel, setChartLabel] = useState([]);
   const [chartData, setChartData] = useState([]);
 
@@ -10,21 +20,23 @@ export const ChartLine = ({ stages, name }) => {
     labels: chartLabel,
     datasets: [
       {
-        label: "Timeline",
+        label: ["Stage"],
         data: chartData,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "black",
+        borderColor: "white",
       },
     ],
   };
 
+  //side effect to handle the incoming data, sort it out, push it to temp array and set the state.
+  //dependency array to include prop changes to state
   useEffect(() => {
     let setArr = [];
     let x = [];
     let y = [];
 
-    stages[0].stages.map((e) => {
+    stages[0].stages.forEach((e) => {
       let secToMin = e.duration / 60;
       let deep = 1;
       let light = 2;
@@ -55,7 +67,7 @@ export const ChartLine = ({ stages, name }) => {
         });
       }
     });
-    setArr.map((e) => {
+    setArr.forEach((e) => {
       x.push(e.stage);
       y.push(e.duration);
     });
@@ -75,11 +87,20 @@ export const ChartLine = ({ stages, name }) => {
       },
     },
   };
-  let awake = ["awake"];
+
   return (
     <div>
-      <h3>{name}</h3>
-
+      <div id="line-chart-triple">
+        <div id="line-chart-triple">
+          <p>{icon1p}</p>
+          <span id="line-chart-triple-icon">{icon1}</span>
+        </div>
+        <h3>{name}</h3>
+        <div id="line-chart-triple">
+          <span id="line-chart-triple-icon">{icon2}</span>
+          <p>{icon2p}</p>
+        </div>
+      </div>
       <div className="chart-display-mid">
         <div
           style={{
@@ -87,33 +108,11 @@ export const ChartLine = ({ stages, name }) => {
             flexDirection: "column",
             justifyContent: "space-around",
           }}
-        >
-          <div className="label-color">
-            a
-            <br />
-            w
-            <br />
-            a
-            <br />
-            k
-            <br />e
-          </div>
-
-          <div>
-            a
-            <br />
-            s
-            <br />
-            l
-            <br />
-            e
-            <br />
-            e
-            <br />p
-          </div>
-        </div>
-        <div style={{ width: "100%", margin: "auto" }}>
-          <Line data={data} options={options} />
+        ></div>
+        <div>
+          <Line data={data} options={options} width={width} height={height} />
+          <br />
+          <p>{footer}</p>
         </div>
       </div>
     </div>

@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 
 import { Scatter } from "react-chartjs-2";
 
-export const ScatterChart = ({ name, data }) => {
+export const ScatterChart = ({ name, data, height, width, footer }) => {
   const [dataset, setDataset] = useState([]);
 
+  //side effect to handle the incoming data, sort it out, push it to temp array and set the state.
+  //dependency array to include prop changes to state
   useEffect(() => {
-    let labArr = [];
     let dataArr = [];
-
-    data.map((e) => {
+    data.forEach((e) => {
       let newTime = e[0].slice(11, 16);
       dataArr.push({
         x: parseInt(newTime),
         y: e[1],
       });
     });
-
     setDataset(dataArr);
   }, [data]);
 
@@ -48,7 +47,14 @@ export const ScatterChart = ({ name, data }) => {
   return (
     <div>
       <h3>{name}</h3>
-      <Scatter data={chartdata} options={options} height={400} width={450} />
+      <Scatter
+        data={chartdata}
+        options={options}
+        height={height}
+        width={width}
+      />
+      <br />
+      <p>{footer}</p>
     </div>
   );
 };

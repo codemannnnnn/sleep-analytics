@@ -1,5 +1,6 @@
 body {
-  background-color: #282c34;
+  /* background-color: #282c34; */
+  background-color: black;
 }
 
 h1,
@@ -14,56 +15,93 @@ p {
   color: white;
 }
 
-.date-box {
+.dash-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  padding: 2%;
-  margin: auto;
+  justify-items: center;
+}
+.date-box {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  height: 100vh;
+  background-color: white;
 }
 .date-box :hover {
-  border-color: dodgerblue;
-  color: dodgerblue;
+  color: black;
+  border-style: dotted;
   cursor: pointer;
 }
 
 .date-box-item {
-  border: 1px solid white;
-  padding: 5%;
-  color: white;
-  border-radius: 10px;
+  border: 1px solid lightgrey;
+  padding: 20%;
+  color: grey;
+  border-radius: 3px;
   font-size: larger;
-  width: 20%;
 }
 
 .cta-top {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   margin: auto;
-  padding: 4%;
+  padding-left: 10%;
 }
 
 #cta-top-item1 {
-  width: 20%;
+  width: 100%;
   border: 1px solid white;
-  border-radius: 100px;
+  border-radius: 10px;
   margin: auto;
+  padding: 4%;
+  text-align: center;
   height: 200px;
 }
 
 #cta-top-item2 {
-  width: 70%;
   margin: auto;
+  padding: 10%;
 }
 
 #score-gauge-inner {
-  padding-top: 20%;
+  margin: auto;
+  padding-top: 30%;
 }
 
 .chart-display-mid {
   display: flex;
-  justify-content: center;
+
+  justify-content: space-between;
   margin: auto;
   padding: 3%;
-  color: grey;
+}
+
+.chart-border-box {
+  border: 1px solid white;
+  border-radius: 10px;
+}
+.chart-sxs {
+  padding: 10%;
+}
+
+#awake-icon {
+  font-size: 14px;
+  padding-top: 300%;
+}
+
+#line-chart-triple {
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  padding-top: 2%;
+  font-size: 0.9rem;
+}
+#line-chart-triple-icon {
+  padding-top: 3%;
+}
+
+#dropdown-item {
+  cursor: pointer;
 }
