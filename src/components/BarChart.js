@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { Bar } from "react-chartjs-2";
 
+//import config for standard options
+import { options } from "../options.js";
+
 export const BarChart = ({ temp, name, height, width, footer, footer2 }) => {
   const [labelData, setLabelData] = useState([]);
   const [data, setData] = useState([]);
@@ -31,18 +34,6 @@ export const BarChart = ({ temp, name, height, width, footer, footer2 }) => {
         borderWidth: 1,
       },
     ],
-  };
-  const options = {
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      yAxes: {
-        display: false,
-      },
-    },
   };
 
   return (

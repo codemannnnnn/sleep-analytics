@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
+//import config for standard options
+import { options } from "../options.js";
+
 export const TimeSeriesGauge = ({ name, tnt, height, width, footer }) => {
   const [labelData, setLabelData] = useState([]);
   const [data, setData] = useState([]);
@@ -30,19 +33,6 @@ export const TimeSeriesGauge = ({ name, tnt, height, width, footer }) => {
         borderWidth: 1,
       },
     ],
-  };
-
-  const options = {
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      yAxes: {
-        display: false,
-      },
-    },
   };
 
   return (

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { Scatter } from "react-chartjs-2";
 
+//import config for standard options
+import { options } from "../options.js";
+
 export const ScatterChart = ({ name, data, height, width, footer }) => {
   const [dataset, setDataset] = useState([]);
 
@@ -30,18 +33,6 @@ export const ScatterChart = ({ name, data, height, width, footer }) => {
         borderWidth: 1,
       },
     ],
-  };
-  const options = {
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      yAxes: {
-        display: false,
-      },
-    },
   };
 
   return (
