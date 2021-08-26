@@ -7,12 +7,12 @@ import { grabData } from "../App.js";
 //components
 import { TimeSeriesGauge } from "./TimeSeriesGauge";
 import { ScoreGauge } from "./ScoreGauge";
-import { ChartLine } from "./ChartLine";
-import { BarChart } from "./BarChart";
 import { ScatterChart } from "./ScatterChart";
 
+//newcomps
+import { StepLine } from "./StepLine";
+import { Area } from "./Area";
 //packages
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 export const Dashboard = () => {
   //incoming data
@@ -94,36 +94,32 @@ export const Dashboard = () => {
               <ScoreGauge item={selectedItemData} loading={childLoad} />
             )}
           </div>
-
-          <div id="cta-top-item2">
-            {isLoading ? (
-              "Loading..."
-            ) : (
-              <ChartLine
-                name={"Stages"}
-                stages={selectedItemData}
-                height={200}
-                width={300}
-                icon1p={"awake"}
-                icon1={<FaArrowUp />}
-                icon2p={"asleep"}
-                icon2={<FaArrowDown />}
-                footer={"minutes"}
-              />
-            )}
-          </div>
-          <div id="cta-top-item2">
-            {isLoading ? (
-              "Loading..."
-            ) : (
-              <TimeSeriesGauge
-                tnt={selectedItemData}
-                name={"Tosses & Turns"}
-                height={200}
-                width={300}
-                footer={"time"}
-              />
-            )}
+          <div className="top-chartz">
+            <div id="cta-top-item2">
+              {isLoading ? (
+                "Loading..."
+              ) : (
+                // <ChartLine
+                //   name={"Stages"}
+                //   stages={selectedItemData}
+                //   height={200}
+                //   width={300}
+                //   icon1p={"awake"}
+                //   icon1={<FaArrowUp />}
+                //   icon2p={"asleep"}
+                //   icon2={<FaArrowDown />}
+                //   footer={"minutes"}
+                // />
+                <StepLine stages={selectedItemData[0].stages} />
+              )}
+            </div>
+            <div id="cta-top-item2">
+              {isLoading ? (
+                "Loading..."
+              ) : (
+                <TimeSeriesGauge tnt={selectedItemData} />
+              )}
+            </div>
           </div>
         </div>
         <div className="chart-display-mid">
@@ -131,17 +127,18 @@ export const Dashboard = () => {
             {isLoading ? (
               "Loading..."
             ) : (
-              <BarChart
-                temp={selectedItemData[0].timeseries.tempRoomC}
-                name={"Ambient Room Temperature"}
-                height={400}
-                width={450}
-                footer={"time | temp"}
-                footer2={"(celsius)"}
-              />
+              // <BarChart
+              //   temp={selectedItemData[0].timeseries.tempRoomC}
+              //   name={"Ambient Room Temperature"}
+              //   height={400}
+              //   width={450}
+              //   footer={"time | temp"}
+              //   footer2={"(celsius)"}
+              // />
+              <Area data={selectedItemData[0].timeseries} />
             )}
           </div>
-          <div className="chart-sxs">
+          {/* <div className="chart-sxs">
             {isLoading ? (
               "Loading..."
             ) : (
@@ -154,7 +151,7 @@ export const Dashboard = () => {
                 footer2={"(celsius)"}
               />
             )}
-          </div>
+          </div> */}
         </div>
         <div className="chart-display-mid">
           <div className="chart-sxs">
