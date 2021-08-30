@@ -63,9 +63,15 @@ export const StepLine = ({ stages, time, width }) => {
         show: true,
         borderType: "solid",
         color: "#ffffff",
-        height: 6,
+        height: 5,
         offsetX: 0,
         offsetY: 0,
+      },
+      tooltip: {
+        enabled: false,
+        // formatter: function (val, idx) {
+        //   return console.log(val.series, idx);
+        // },
       },
     },
     stroke: {

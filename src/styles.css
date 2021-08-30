@@ -57,14 +57,16 @@ p {
   width: 100%;
   margin: auto;
   padding-top: 10%;
+  padding-left: 10%;
 }
 
 @media (max-width: 500px) {
   .cta-top {
     display: flex;
     flex-direction: row;
-    float: left;
-    margin: auto;
+
+    margin-left: -10px;
+    margin-bottom: 20px;
     width: 375px;
     padding-top: 30%;
   }
@@ -75,7 +77,8 @@ p {
   #cta-top-item1 {
     display: flex;
     padding: 4%;
-    width: 30%;
+    width: 35%;
+    height: 15vh;
   }
   .top-chartz {
     display: flex;
@@ -86,6 +89,9 @@ p {
     flex-direction: column;
     margin: auto;
     width: 100%;
+  }
+  #cta-top-item2 {
+    margin-right: 100px;
   }
 }
 
@@ -172,4 +178,8 @@ p {
   background-color: white;
   text-align: left;
   padding: 5%;
+}
+
+#xaxis-split {
+  margin-top: -35px;
 }

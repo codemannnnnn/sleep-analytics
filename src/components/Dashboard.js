@@ -142,7 +142,11 @@ export const Dashboard = () => {
             {isLoading ? (
               "Loading..."
             ) : (
-              <TimeSeriesGauge tnt={selectedItemData} width={450} />
+              <TimeSeriesGauge
+                tnt={selectedItemData}
+                width={450}
+                time={selectedItemData[0].ts}
+              />
             )}
           </div>
         </div>

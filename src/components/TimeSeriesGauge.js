@@ -7,14 +7,16 @@ import moment from "moment";
 
 //
 
-export const TimeSeriesGauge = ({ tnt, width }) => {
+export const TimeSeriesGauge = ({ tnt, width, time }) => {
   const [newD, setNewD] = useState([]);
+  const [hours, setHours] = useState([]);
 
   //side effect to handle the incoming data, sort it out, push it to temp array and set the state.
   //dependency array to include prop changes to state
   useEffect(() => {
     let newArr = [];
     let newnewArr = [];
+    let d = [];
     let count = 0;
     let inc = 1;
     tnt[0].timeseries.tnt.forEach((e) => {
@@ -23,15 +25,20 @@ export const TimeSeriesGauge = ({ tnt, width }) => {
         x: newTime,
         y: [count, inc],
       });
+      d.push(newTime);
       count++;
       inc++;
     });
     newnewArr.push({
       data: newArr,
     });
+    let x = [];
 
+    x.push(d[0], d.pop());
+
+    setHours(x);
     setNewD(newnewArr);
-  }, [tnt]);
+  }, [tnt, time]);
 
   const options = {
     yaxis: {
@@ -43,6 +50,7 @@ export const TimeSeriesGauge = ({ tnt, width }) => {
     },
     xaxis: {
       labels: {
+        show: false,
         style: {
           colors: "#ffffff",
         },
@@ -52,6 +60,14 @@ export const TimeSeriesGauge = ({ tnt, width }) => {
         style: {
           color: "#ffffff",
         },
+      },
+      axisTicks: {
+        show: true,
+        borderType: "solid",
+        color: "#ffffff",
+        height: 5,
+        offsetX: 0,
+        offsetY: 0,
       },
     },
     chart: {
@@ -95,6 +111,11 @@ export const TimeSeriesGauge = ({ tnt, width }) => {
     <div>
       <div>
         <Chart options={options} series={newD} type="area" width={width} />
+      </div>
+      <div id="xaxis-split">
+        {hours.map((e) => {
+          return <div key={e}>{e}</div>;
+        })}
       </div>
     </div>
   );
