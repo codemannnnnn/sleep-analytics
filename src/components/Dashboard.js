@@ -7,11 +7,12 @@ import { grabData } from "../App.js";
 //components
 import { TimeSeriesGauge } from "./TimeSeriesGauge";
 import { ScoreGauge } from "./ScoreGauge";
-import { ScatterChart } from "./ScatterChart";
+import { LineChartRate } from "./LineChartRate";
 
 //newcomps
 import { StepLine } from "./StepLine";
 import { Area } from "./Area";
+
 //packages
 
 export const Dashboard = () => {
@@ -20,10 +21,11 @@ export const Dashboard = () => {
 
   //individual data
   const [intervalData, setIntervalData] = useState([]);
+  const [hours, setHours] = useState(0);
+  const [tnt, setTnt] = useState(0);
 
   //loading states
   const [isLoading, setIsLoading] = useState(true);
-  const [childLoad, setChildLoad] = useState(true);
 
   //selected item
   const [selectedItem, setSelectedItem] = useState("1488955980");
@@ -45,20 +47,31 @@ export const Dashboard = () => {
 
   useEffect(() => {
     let arr = [];
+    let arr2 = [];
+    let arr3 = 0;
+    let timeArr = [];
     data.forEach((e) => {
       if (e.id === selectedItem) {
         arr.push(e);
+        arr2.push(e.stages);
+        arr3 = e.timeseries.tnt.length;
       }
     });
 
+    arr2[0].forEach((j) => {
+      let newTime = j.duration / 60 / 60;
+      timeArr.push(newTime);
+    });
+
+    let x = timeArr.reduce((a, b) => a + b, 0);
+    setTnt(arr3);
+    setHours(x.toFixed(2));
     setSelectedItemData(arr);
-    setChildLoad(false);
   }, [selectedItem]);
 
   const handleClick = (e) => {
     e.preventDefault();
     setSelectedItem(e.target.id);
-    setChildLoad(true);
   };
 
   return (
@@ -85,41 +98,52 @@ export const Dashboard = () => {
               );
             })}
       </div>
+
       <div>
         <div className="cta-top">
           <div id="cta-top-item1">
             {isLoading ? (
               "Loading..."
             ) : (
-              <ScoreGauge item={selectedItemData} loading={childLoad} />
+              <ScoreGauge
+                item={selectedItemData[0].score + "%"}
+                name={"Sleep Fitness"}
+              />
             )}
           </div>
-          <div className="top-chartz">
-            <div id="cta-top-item2">
-              {isLoading ? (
-                "Loading..."
-              ) : (
-                // <ChartLine
-                //   name={"Stages"}
-                //   stages={selectedItemData}
-                //   height={200}
-                //   width={300}
-                //   icon1p={"awake"}
-                //   icon1={<FaArrowUp />}
-                //   icon2p={"asleep"}
-                //   icon2={<FaArrowDown />}
-                //   footer={"minutes"}
-                // />
-                <StepLine stages={selectedItemData[0].stages} />
-              )}
-            </div>
-            <div id="cta-top-item2">
-              {isLoading ? (
-                "Loading..."
-              ) : (
-                <TimeSeriesGauge tnt={selectedItemData} />
-              )}
-            </div>
+          <div id="cta-top-item1">
+            {isLoading ? (
+              "Loading..."
+            ) : (
+              <ScoreGauge item={hours} name={"Hours Slept"} />
+            )}
+          </div>
+          <div id="cta-top-item1">
+            {isLoading ? (
+              "Loading..."
+            ) : (
+              <ScoreGauge item={tnt} name={"Tosses & Turns"} />
+            )}
+          </div>
+        </div>
+        <div className="top-chartz">
+          <div id="cta-top-item2">
+            {isLoading ? (
+              "Loading..."
+            ) : (
+              <StepLine
+                stages={selectedItemData[0].stages}
+                time={selectedItemData[0].ts}
+                width={450}
+              />
+            )}
+          </div>
+          <div id="cta-top-item2">
+            {isLoading ? (
+              "Loading..."
+            ) : (
+              <TimeSeriesGauge tnt={selectedItemData} width={450} />
+            )}
           </div>
         </div>
         <div className="chart-display-mid">
@@ -127,59 +151,19 @@ export const Dashboard = () => {
             {isLoading ? (
               "Loading..."
             ) : (
-              // <BarChart
-              //   temp={selectedItemData[0].timeseries.tempRoomC}
-              //   name={"Ambient Room Temperature"}
-              //   height={400}
-              //   width={450}
-              //   footer={"time | temp"}
-              //   footer2={"(celsius)"}
-              // />
-              <Area data={selectedItemData[0].timeseries} />
-            )}
-          </div>
-          {/* <div className="chart-sxs">
-            {isLoading ? (
-              "Loading..."
-            ) : (
-              <BarChart
-                temp={selectedItemData[0].timeseries.tempBedC}
-                name={"Pod Temperature"}
-                height={400}
-                width={450}
-                footer={"time | temp"}
-                footer2={"(celsius)"}
-              />
-            )}
-          </div> */}
-        </div>
-        <div className="chart-display-mid">
-          <div className="chart-sxs">
-            {isLoading ? (
-              "Loading..."
-            ) : (
-              <ScatterChart
-                name={"Respiratory Rate"}
-                data={selectedItemData[0].timeseries.respiratoryRate}
-                height={300}
-                width={450}
-                footer={"time | rate"}
-              />
+              <Area data={selectedItemData[0].timeseries} width={900} />
             )}
           </div>
           <div className="chart-sxs">
             {isLoading ? (
               "Loading..."
             ) : (
-              <ScatterChart
-                name={"Heart Rate"}
-                data={selectedItemData[0].timeseries.heartRate}
-                height={300}
-                width={450}
-                footer={"time | rate"}
+              <LineChartRate
+                data={selectedItemData[0].timeseries}
+                width={900}
               />
             )}
-          </div>
+          </div>{" "}
         </div>
       </div>
     </div>

@@ -4,19 +4,12 @@ import Chart from "react-apexcharts";
 
 // import { stages } from "../stages";
 
-export const StepLine = ({
-  stages,
-  name,
-  width,
-  height,
-  icon1,
-  icon1p,
-  icon2,
-  icon2p,
-  footer,
-}) => {
+import moment from "moment";
+
+export const StepLine = ({ stages, time, width }) => {
   const [stage, setStage] = useState([]);
   const [dur, setDur] = useState([]);
+  const [hours, setHours] = useState([]);
 
   const options = {
     chart: {
@@ -33,6 +26,22 @@ export const StepLine = ({
         style: {
           colors: "#ffffff",
         },
+
+        formatter: function (val) {
+          if ((val <= 1) & (val <= 2)) {
+            return "DEEP";
+          }
+          if ((val <= 2) & (val <= 3)) {
+            return "LIGHT";
+          }
+
+          if ((val <= 3) & (val <= 4)) {
+            return "AWAKE";
+          }
+          if (val <= 4) {
+            return "OUT";
+          }
+        },
       },
     },
     xaxis: {
@@ -44,11 +53,12 @@ export const StepLine = ({
         },
       },
       labels: {
-        show: true,
+        show: false,
         style: {
           colors: "#ffffff",
         },
       },
+
       axisTicks: {
         show: true,
         borderType: "solid",
@@ -75,37 +85,51 @@ export const StepLine = ({
           "</div>" +
           "<div id='stage-chart-bottom-tool'>" +
           (w.config.series[0].data[dataPointIndex] === 1
-            ? "<span><strong>deep</strong></span>"
+            ? "<span><strong>DEEP</strong></span>"
             : w.config.series[0].data[dataPointIndex] === 2
-            ? "<span><strong>light</strong></span>"
+            ? "<span><strong>LIGHT</strong></span>"
             : w.config.series[0].data[dataPointIndex] === 3
-            ? "<span><strong>awake</strong></span>"
+            ? "<span><strong>AWAKE</strong></span>"
             : w.config.series[0].data[dataPointIndex] === 4
-            ? "<span><strong>out</strong></span>"
+            ? "<span><strong>OUT</strong></span>"
             : "") +
           "</div>" +
           "</div>"
         );
       },
     },
+    responsive: [
+      {
+        breakpoint: 800,
+        options: {
+          chart: {
+            width: "350px",
+          },
+        },
+      },
+    ],
   };
 
   const series = [
     {
-      name: "",
       data: stage,
     },
   ];
 
   useEffect(() => {
     let stageArr = [];
+    let newStage = [];
     let arr2 = [];
     let run2 = [];
     let g2 = 0;
+    let a = [];
+    let b = [];
+    let c = [];
+    let d = [];
 
     stages.forEach((e, idx) => {
       let newTime = e.duration / 60;
-      if (newTime > 40) {
+      if (newTime > 60) {
         arr2.push({
           stage: e.stage,
           duration: e.duration,
@@ -113,22 +137,21 @@ export const StepLine = ({
         run2.push(idx + g2);
         g2++;
       }
+      d.push(newTime);
+      newStage.push(e);
     });
 
     //this is the function that will split things out to be bigger.
-    //works in the console but react doesn't like it, will keep working on it.
-    // arr2.forEach((e, idx) => {
-    //   stages.splice(run2[idx], 0, e);
-    // });
+    //works in the console but react doesn't like it, will keep working on it.f
+    arr2.forEach((e, idx) => {
+      newStage.splice(run2[idx], 0, e);
+    });
 
-    let a = [];
-    let b = [];
-    stages.forEach((e) => {
+    newStage.forEach((e) => {
       a.push(e.stage);
       b.push(e.duration);
     });
 
-    let c = [];
     b.forEach((e) => {
       let newTime = e / 60;
       c.push(newTime);
@@ -153,12 +176,29 @@ export const StepLine = ({
 
     setStage(stageArr);
     setDur(c);
-  }, [stages]);
+
+    let x = 0;
+    x = d.reduce((a, b) => a + b, 0);
+
+    let y = moment(time, "YYYY-DD-MM-hh:mm:ss").add(x, "minutes").format("LTS");
+
+    let log = [
+      moment(time, "YYYY-DD-MM-hh:mm:ss").format("hh:mm"),
+      moment(y, "hh:mm:ss").format("hh:mm"),
+    ];
+
+    setHours(log);
+  }, [stages, time]);
 
   return (
     <div className="new-chart-split">
       <div>
-        <Chart options={options} series={series} type="area" width="450" />
+        <Chart options={options} series={series} type="area" width={width} />
+      </div>
+      <div id="xaxis-split">
+        {hours.map((e) => {
+          return <div key={e}>{e}</div>;
+        })}
       </div>
     </div>
   );

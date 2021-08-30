@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from "react";
-
 import Chart from "react-apexcharts";
 
-export const Area = ({ data, width }) => {
-  const [bedTemp, setBedTemp] = useState([]);
-  const [roomTemp, setRoomTemp] = useState([]);
+export const LineChartRate = ({ data, width }) => {
+  const [heartRate, setHearRate] = useState([]);
+  const [respRate, setRespRate] = useState([]);
   const [time, setTime] = useState([]);
+
+  useEffect(() => {
+    let respArr = [];
+    let heartArr = [];
+    let timeArr = [];
+    data.heartRate.forEach((e) => {
+      let newTime = e[0].slice(11, 16);
+      let newHeart = e[1].toFixed(2);
+      timeArr.push(newTime);
+      heartArr.push(newHeart);
+    });
+    data.respiratoryRate.forEach((e) => {
+      let newResp = e[1].toFixed(2);
+      respArr.push(newResp);
+    });
+
+    setHearRate(heartArr);
+    setRespRate(respArr);
+    setTime(timeArr);
+  }, [data]);
 
   const options = {
     chart: {
@@ -22,7 +41,7 @@ export const Area = ({ data, width }) => {
           colors: "#ffffff",
         },
         formatter: function (val) {
-          return val + " ℃";
+          return val;
         },
       },
     },
@@ -75,37 +94,16 @@ export const Area = ({ data, width }) => {
 
   const series = [
     {
-      name: "Pod",
-      data: bedTemp,
+      name: "Heart Rate",
+      data: heartRate,
     },
     {
-      name: "Room",
-      data: roomTemp,
+      name: "Respiratory Rate",
+      data: respRate,
     },
   ];
-  useEffect(() => {
-    let bedArr = [];
-    let roomArr = [];
-    let timeArr = [];
-    data.tempRoomC.forEach((e) => {
-      let newTime = e[0].slice(11, 16);
-      let newRoom = e[1].toFixed(2);
-
-      timeArr.push(newTime);
-      roomArr.push(newRoom);
-    });
-    data.tempBedC.forEach((e) => {
-      let newBed = e[1].toFixed(2);
-      bedArr.push(newBed);
-    });
-
-    setBedTemp(bedArr);
-    setRoomTemp(roomArr);
-    setTime(timeArr);
-  }, [data]);
-
   return (
-    <div className="chart-style">
+    <div>
       <Chart
         series={series}
         options={options}
